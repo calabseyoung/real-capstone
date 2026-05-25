@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>화성 AI 시민리더 잇다(IT-DA)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;900&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --orange:#F47920;--orange-dark:#C4600A;--orange-light:#FEF0E6;--orange-mid:#F89440;
+  --blue:#1A4FA0;--blue-dark:#0F3275;--blue-light:#E8EEF8;--blue-mid:#2B63C4;
+  --gray:#5A6A7A;--gray-light:#F0F3F6;--gray-dark:#2D3A47;
+  --bg:#F3F5F9;--surface:#fff;--border:#DDE3EE;
+  --text:#1A2740;--text-sub:#46566A;--text-muted:#8A97A8;
+  --shadow:0 2px 16px rgba(26,47,80,0.07);--shadow-lg:0 8px 36px rgba(26,47,80,0.14);
+  --r:14px;--r-sm:8px;
+}
+body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+.view{display:none}.view.active{display:block}
+
+/* NAV */
+.nav{background:var(--blue);position:sticky;top:0;z-index:200}
+.nav-topbar{background:var(--orange);padding:5px 0;text-align:center;font-size:11px;color:rgba(255,255,255,.92);letter-spacing:.4px;font-weight:500}
+.nav-inner{max-width:1120px;margin:0 auto;padding:0 24px;display:flex;align-items:center;height:62px}
+.nav-logo{display:flex;align-items:center;gap:11px;text-decoration:none;margin-right:40px;cursor:pointer}
+.nav-logo-icon{width:36px;height:36px;background:var(--orange);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.nav-logo-name{font-size:14px;font-weight:800;color:#fff;letter-spacing:-.3px;line-height:1.2}
+.nav-logo-sub{font-size:9.5px;color:rgba(255,255,255,.45);display:block;margin-top:1px}
+.nav-links{display:flex;gap:2px;flex:1}
+.nav-links a{font-size:13px;color:rgba(255,255,255,.6);text-decoration:none;padding:7px 14px;border-radius:6px;transition:all .15s;cursor:pointer;font-weight:400;border:none;background:none;font-family:inherit}
+.nav-links a:hover{color:#fff;background:rgba(255,255,255,.1)}
+.nav-links a.active{color:#fff;background:rgba(255,255,255,.12);font-weight:600}
+.nav-right{display:flex;align-items:center;gap:10px}
+.btn-nav-login{font-size:12.5px;color:rgba(255,255,255,.75);background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);padding:7px 16px;border-radius:6px;cursor:pointer;font-family:inherit;font-weight:500;transition:all .15s}
+.btn-nav-login:hover{background:rgba(255,255,255,.15);color:#fff}
+.btn-nav-join{font-size:12.5px;color:#fff;background:var(--orange);border:none;padding:7px 18px;border-radius:6px;cursor:pointer;font-family:inherit;font-weight:700;transition:all .15s}
+.btn-nav-join:hover{background:var(--orange-dark)}
+.nav-user{display:none;align-items:center;gap:10px}
+.nav-avatar{width:34px;height:34px;border-radius:50%;background:var(--orange);color:#fff;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;border:2px solid rgba(255,255,255,.3)}
+.nav-username{font-size:13px;color:rgba(255,255,255,.85);font-weight:500}
+.btn-nav-logout{font-size:12px;color:rgba(255,255,255,.4);background:none;border:1px solid rgba(255,255,255,.18);padding:5px 12px;border-radius:6px;cursor:pointer;font-family:inherit;transition:all .15s}
+.btn-nav-logout:hover{color:rgba(255,255,255,.75);border-color:rgba(255,255,255,.4)}
+
+/* TICKER */
+.ticker{background:var(--blue-dark);overflow:hidden;padding:7px 0}
+.ticker-track{display:flex;white-space:nowrap;animation:ticker 34s linear infinite}
+.ticker-item{display:inline-flex;align-items:center;gap:8px;padding:0 44px;font-size:12px;color:rgba(255,255,255,.72)}
+.ticker-tag{background:var(--orange);color:#fff;font-size:9px;font-weight:700;padding:2px 7px;border-radius:3px}
+@keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,var(--blue) 0%,var(--blue-dark) 55%,#091E50 100%);padding:68px 24px 76px;position:relative;overflow:hidden}
+.hero-grid{position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.05) 1.5px,transparent 1.5px);background-size:22px 22px}
+.hero-glow1{position:absolute;top:-80px;right:-60px;width:320px;height:320px;background:radial-gradient(circle,rgba(244,121,32,.18) 0%,transparent 65%);border-radius:50%}
+.hero-glow2{position:absolute;bottom:-60px;left:10%;width:260px;height:260px;background:radial-gradient(circle,rgba(100,150,255,.1) 0%,transparent 65%);border-radius:50%}
+.hero-inner{max-width:1120px;margin:0 auto;display:grid;grid-template-columns:1fr 400px;gap:60px;align-items:center;position:relative;z-index:1}
+.hero-eye{display:inline-flex;align-items:center;gap:7px;background:rgba(244,121,32,.15);border:1px solid rgba(244,121,32,.3);color:var(--orange-mid);font-size:11px;font-weight:600;padding:5px 14px;border-radius:20px;margin-bottom:20px;letter-spacing:.3px}
+.hero-dot{width:6px;height:6px;background:var(--orange);border-radius:50%;animation:hdot 2s ease-in-out infinite}
+@keyframes hdot{0%,100%{opacity:1}50%{opacity:.3}}
+.hero h1{font-size:clamp(28px,4vw,46px);font-weight:900;color:#fff;line-height:1.18;letter-spacing:-1px;margin-bottom:16px}
+.hero h1 em{font-style:normal;color:var(--orange-mid)}
+.hero-desc{font-size:15.5px;color:rgba(255,255,255,.6);line-height:1.75;margin-bottom:30px;font-weight:300;max-width:460px}
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap}
+.btn-hero-p{background:var(--orange);color:#fff;border:none;padding:14px 30px;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s}
+.btn-hero-p:hover{background:var(--orange-dark);transform:translateY(-2px);box-shadow:0 6px 24px rgba(244,121,32,.4)}
+.btn-hero-g{background:rgba(255,255,255,.07);color:rgba(255,255,255,.85);border:1px solid rgba(255,255,255,.18);padding:13px 26px;border-radius:10px;font-size:15px;font-weight:500;cursor:pointer;font-family:inherit;transition:all .2s}
+.btn-hero-g:hover{background:rgba(255,255,255,.13)}
+.hero-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.11);border-radius:var(--r);padding:26px;backdrop-filter:blur(8px)}
+.hc-label{font-size:10.5px;font-weight:700;color:rgba(255,255,255,.45);letter-spacing:1px;text-transform:uppercase;margin-bottom:18px}
+.hc-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px}
+.hc-stat{background:rgba(255,255,255,.06);border-radius:9px;padding:14px;text-align:center}
+.hc-num{font-size:24px;font-weight:800;color:#fff;font-family:'Inter',sans-serif;display:block;letter-spacing:-.5px}
+.hc-num.org{color:var(--orange-mid)}
+.hc-sub{font-size:10.5px;color:rgba(255,255,255,.4);margin-top:2px;display:block}
+.hc-div{border:none;border-top:1px solid rgba(255,255,255,.08);margin:16px 0}
+.hc-steps{display:flex;flex-direction:column;gap:9px}
+.hc-step{display:flex;align-items:center;gap:10px}
+.hc-step-n{width:22px;height:22px;border-radius:50%;background:var(--orange);color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:'Inter',sans-serif}
+.hc-step-t{font-size:12.5px;color:rgba(255,255,255,.65)}
+
+/* HOME 과정 섹션 */
+.home-section{max-width:1120px;margin:0 auto;padding:52px 24px 72px}
+.hs-title{font-size:24px;font-weight:800;color:var(--text);letter-spacing:-.4px;margin-bottom:6px;text-align:center}
+.hs-desc{font-size:14px;color:var(--text-muted);text-align:center;margin-bottom:36px}
+.course-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.course-card{background:var(--surface);border-radius:var(--r);border:1.5px solid var(--border);box-shadow:var(--shadow);padding:24px;position:relative;overflow:hidden;transition:all .2s;cursor:pointer}
+.course-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;border-radius:4px 4px 0 0}
+.cc-basic::before{background:var(--orange)}
+.cc-inter::before{background:var(--blue)}
+.cc-adv::before{background:#7C3AED}
+.course-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+.cc-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:14px;margin-top:6px}
+.cci-a{background:var(--orange-light)}.cci-b{background:var(--blue-light)}.cci-c{background:#EDE9FE}
+.cc-step{font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-bottom:4px}
+.cs-a{color:var(--orange-dark)}.cs-b{color:var(--blue)}.cs-c{color:#6D28D9}
+.cc-title{font-size:16px;font-weight:800;color:var(--text);letter-spacing:-.3px;margin-bottom:8px}
+.cc-desc{font-size:12.5px;color:var(--text-muted);line-height:1.65;margin-bottom:14px}
+.cc-tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.cc-tag{font-size:11px;color:var(--text-sub);background:var(--bg);padding:3px 10px;border-radius:6px}
+.cc-btn{width:100%;padding:10px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;border:none;transition:all .15s}
+.ccb-a{background:var(--orange);color:#fff}.ccb-a:hover{background:var(--orange-dark)}
+.ccb-b{background:var(--blue);color:#fff}.ccb-b:hover{background:var(--blue-dark)}
+.ccb-c{background:#7C3AED;color:#fff}.ccb-c:hover{background:#5B21B6}
+
+/* LOGIN */
+.login-wrap{min-height:calc(100vh - 82px);display:flex;align-items:center;justify-content:center;padding:40px 24px;background:linear-gradient(160deg,var(--blue-light) 0%,var(--bg) 50%,var(--orange-light) 100%)}
+.login-box{background:var(--surface);border-radius:20px;box-shadow:var(--shadow-lg);width:100%;max-width:440px;overflow:hidden}
+.login-header{background:var(--blue);padding:32px;text-align:center}
+.lh-icon{font-size:36px;margin-bottom:10px}
+.lh-title{font-size:20px;font-weight:800;color:#fff;letter-spacing:-.4px;margin-bottom:4px}
+.lh-sub{font-size:13px;color:rgba(255,255,255,.55)}
+.login-body{padding:32px}
+.demo-accounts{background:var(--orange-light);border:1px solid rgba(244,121,32,.2);border-radius:var(--r-sm);padding:14px 16px;margin-bottom:22px}
+.da-title{font-size:11px;font-weight:700;color:var(--orange-dark);margin-bottom:8px;letter-spacing:.3px}
+.da-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;cursor:pointer;padding:5px 6px;border-radius:5px;transition:background .12s}
+.da-row:last-child{margin-bottom:0}
+.da-row:hover{background:rgba(244,121,32,.1)}
+.da-label{font-size:12px;color:var(--text-sub);font-weight:500}
+.da-cred{font-size:11px;color:var(--text-muted);font-family:'Inter',sans-serif}
+.da-fill{font-size:10.5px;color:var(--orange);font-weight:700;flex-shrink:0}
+.form-group{margin-bottom:16px}
+.form-label{display:block;font-size:12.5px;font-weight:600;color:var(--text-sub);margin-bottom:6px}
+.form-input{width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:var(--r-sm);font-size:14px;color:var(--text);font-family:inherit;background:#fff;outline:none;transition:all .15s}
+.form-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(26,79,160,.1)}
+.form-input.error{border-color:#EF4444}
+.form-err{font-size:11.5px;color:#EF4444;margin-top:5px;display:none}
+.form-err.show{display:block}
+.btn-login{width:100%;background:var(--blue);color:#fff;border:none;padding:14px;border-radius:var(--r-sm);font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s;margin-top:4px}
+.btn-login:hover{background:var(--blue-dark)}
+.login-footer{text-align:center;margin-top:20px;font-size:13px;color:var(--text-muted)}
+.login-footer a{color:var(--orange);font-weight:600;cursor:pointer;text-decoration:none}
+
+/* DASHBOARD */
+.dash-page{max-width:1120px;margin:0 auto;padding:32px 24px 72px}
+.dash-banner{background:linear-gradient(135deg,var(--blue) 0%,var(--blue-dark) 55%,#091E50 100%);border-radius:var(--r);padding:26px 30px;margin-bottom:22px;position:relative;overflow:hidden}
+.db-dots{position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.05) 1.5px,transparent 1.5px);background-size:22px 22px}
+.db-glow{position:absolute;top:-50px;right:-40px;width:220px;height:220px;background:radial-gradient(circle,rgba(244,121,32,.2) 0%,transparent 65%);border-radius:50%}
+.db-inner{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.db-eye{font-size:10px;font-weight:700;color:rgba(255,255,255,.45);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px}
+.db-name{font-size:20px;font-weight:900;color:#fff;letter-spacing:-.4px;margin-bottom:4px}
+.db-sub{font-size:13px;color:rgba(255,255,255,.55)}
+.db-right{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.db-badge{background:rgba(244,121,32,.18);border:1px solid rgba(244,121,32,.3);border-radius:10px;padding:14px 22px;text-align:center;min-width:155px}
+.db-badge-label{font-size:10px;font-weight:600;color:rgba(255,255,255,.45);margin-bottom:4px}
+.db-badge-value{font-size:15px;font-weight:800;color:var(--orange-mid)}
+.dash-apply-btn{display:inline-flex;align-items:center;gap:7px;background:var(--orange);color:#fff;border:none;padding:11px 20px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .18s;white-space:nowrap}
+.dash-apply-btn:hover{background:var(--orange-dark)}
+
+.stepper-card{background:var(--surface);border-radius:var(--r);border:1px solid var(--border);box-shadow:var(--shadow);padding:26px 28px;margin-bottom:20px}
+.sc-title{font-size:15px;font-weight:800;color:var(--text);letter-spacing:-.3px;margin-bottom:3px}
+.sc-desc{font-size:12.5px;color:var(--text-muted);margin-bottom:22px}
+.stepper{display:flex;align-items:flex-start}
+.step-col{display:flex;flex-direction:column;align-items:center;flex:1;z-index:1}
+.step-conn{flex:1;height:4px;margin-top:17px;border-radius:4px;transition:all .4s}
+.conn-done{background:var(--orange)}.conn-ing{background:linear-gradient(90deg,var(--orange) 55%,var(--border) 55%)}.conn-wait{background:var(--border)}
+.step-circle{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;font-family:'Inter',sans-serif;transition:all .3s;margin-bottom:9px;flex-shrink:0}
+.sc-done{background:var(--orange);color:#fff;box-shadow:0 0 0 5px var(--orange-light)}
+.sc-ing{background:var(--blue);color:#fff;box-shadow:0 0 0 5px var(--blue-light);animation:scpulse 2s ease-in-out infinite}
+.sc-wait{background:var(--gray-light);color:var(--text-muted);border:2px solid var(--border)}
+@keyframes scpulse{0%,100%{box-shadow:0 0 0 5px var(--blue-light)}50%{box-shadow:0 0 0 9px var(--blue-light)}}
+.step-name{font-size:11.5px;font-weight:700;color:var(--text);text-align:center;margin-bottom:2px;line-height:1.3}
+.step-name.muted{color:var(--text-muted);font-weight:500}
+.step-sub{font-size:10.5px;color:var(--text-muted);text-align:center}
+.step-date{font-size:10px;font-weight:600;margin-top:4px;text-align:center}
+.sdate-done{color:var(--orange-dark)}.sdate-ing{color:var(--blue)}.sdate-wait{color:var(--text-muted)}
+.cur-box{display:flex;align-items:center;gap:14px;background:var(--blue-light);border:2px solid var(--blue);border-radius:var(--r);padding:16px 20px;margin-top:20px}
+.cur-icon{width:42px;height:42px;border-radius:9px;background:var(--blue);color:#fff;font-size:19px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.cur-title{font-size:14px;font-weight:800;color:var(--blue);margin-bottom:2px}
+.cur-desc{font-size:12.5px;color:var(--text-sub);line-height:1.55}
+.cur-badge{margin-left:auto;background:var(--blue);color:#fff;font-size:12px;font-weight:700;padding:7px 18px;border-radius:7px;flex-shrink:0;white-space:nowrap}
+
+.level-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px}
+.level-card{background:var(--surface);border-radius:var(--r);border:1.5px solid var(--border);box-shadow:var(--shadow);padding:20px;position:relative;overflow:hidden;transition:all .2s}
+.level-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;border-radius:4px 4px 0 0;background:var(--border)}
+.lc-done{border-color:var(--orange)}.lc-done::before{background:var(--orange)}
+.lc-ing{border-color:var(--blue)}.lc-ing::before{background:var(--blue)}
+.lc-locked{opacity:.5}
+.level-card:hover:not(.lc-locked){transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+.lc-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;margin-top:6px}
+.lc-icon-box{width:40px;height:40px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:19px}
+.lib-a{background:var(--orange-light)}.lib-b{background:var(--blue-light)}.lib-c{background:#EDE9FE}
+.lc-badge{font-size:10px;font-weight:700;padding:4px 10px;border-radius:20px}
+.lcb-done{background:var(--orange-light);color:var(--orange-dark)}
+.lcb-ing{background:var(--blue-light);color:var(--blue)}
+.lcb-wait{background:var(--gray-light);color:var(--gray)}
+.lc-step{font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-bottom:3px}
+.lcs-a{color:var(--orange-dark)}.lcs-b{color:var(--blue)}.lcs-c{color:#6D28D9}
+.lc-title{font-size:14px;font-weight:800;color:var(--text);letter-spacing:-.2px;margin-bottom:5px}
+.lc-desc{font-size:12px;color:var(--text-muted);line-height:1.6;margin-bottom:12px}
+.prog-bar{height:7px;background:rgba(26,47,80,.08);border-radius:10px;overflow:hidden;margin-bottom:5px}
+.prog-fill{height:100%;border-radius:10px;transition:width .7s ease}
+.fill-orange{background:var(--orange)}.fill-blue{background:var(--blue)}.fill-purple{background:#7C3AED}
+.lc-foot{display:flex;justify-content:space-between;align-items:center}
+.lc-foot-txt{font-size:11.5px;color:var(--text-muted)}
+.lc-foot-txt.success{color:var(--orange-dark);font-weight:600}
+.lc-pct{font-size:12px;font-weight:800;font-family:'Inter',sans-serif;color:var(--text-muted)}
+.lcp-orange{color:var(--orange-dark)}.lcp-blue{color:var(--blue)}
+
+.check-card{background:var(--surface);border-radius:var(--r);border:1px solid var(--border);box-shadow:var(--shadow);padding:22px 26px;margin-bottom:20px}
+.ck-title{font-size:15px;font-weight:800;color:var(--text);letter-spacing:-.3px;margin-bottom:3px}
+.ck-desc{font-size:12.5px;color:var(--text-muted);margin-bottom:16px}
+.checklist{display:flex;flex-direction:column;gap:8px}
+.cl-item{display:flex;align-items:center;gap:13px;padding:12px 15px;border-radius:var(--r-sm);border:1.5px solid var(--border);background:#fff;transition:all .15s}
+.cl-done{border-color:var(--orange);background:var(--orange-light)}
+.cl-ing{border-color:var(--blue);background:var(--blue-light)}
+.cl-wait{opacity:.6}
+.cl-check{width:25px;height:25px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+.cc-done{background:var(--orange);color:#fff}
+.cc-ing{background:var(--blue);color:#fff;font-size:10px}
+.cc-wait{background:var(--gray-light);border:2px solid var(--border);color:var(--text-muted)}
+.cl-name{font-size:13.5px;font-weight:700;color:var(--text);margin-bottom:1px}
+.cl-sub{font-size:11.5px;color:var(--text-muted)}
+.cl-right{font-size:11.5px;font-weight:700;margin-left:auto;flex-shrink:0}
+.cr-done{color:var(--orange-dark)}.cr-ing{color:var(--blue)}.cr-wait{color:var(--text-muted)}
+
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.info-card{background:var(--surface);border-radius:var(--r);border:1px solid var(--border);box-shadow:var(--shadow);overflow:hidden}
+.ic-header{padding:15px 20px 11px;border-bottom:1px solid var(--gray-light);display:flex;align-items:center;gap:9px}
+.ic-icon{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px}
+.ici-orange{background:var(--orange-light)}.ici-blue{background:var(--blue-light)}
+.ic-title{font-size:14px;font-weight:800;color:var(--text);letter-spacing:-.2px}
+.ic-body{padding:14px 20px 16px}
+.next-list{display:flex;flex-direction:column;gap:8px}
+.next-item{display:flex;align-items:center;gap:11px;padding:9px 12px;background:var(--bg);border-radius:var(--r-sm)}
+.ni-date{font-size:11.5px;font-weight:700;color:var(--blue);background:var(--blue-light);padding:4px 9px;border-radius:5px;flex-shrink:0;font-family:'Inter',sans-serif;white-space:nowrap}
+.ni-text{font-size:13px;color:var(--text-sub);font-weight:500;flex:1}
+.ni-dday{font-size:11px;font-weight:700;color:var(--orange-dark);flex-shrink:0;white-space:nowrap}
+.notif-list{display:flex;flex-direction:column}
+.notif-item{display:flex;align-items:flex-start;gap:9px;padding:9px 0;border-bottom:1px solid var(--gray-light)}
+.notif-item:last-child{border-bottom:none}
+.nd{width:7px;height:7px;border-radius:50%;margin-top:5px;flex-shrink:0}
+.nd-org{background:var(--orange)}.nd-blu{background:var(--blue)}.nd-gry{background:var(--gray)}
+.notif-txt{font-size:12.5px;color:var(--text-sub);line-height:1.55;flex:1}
+.notif-txt strong{color:var(--text);font-weight:700}
+.notif-time{font-size:11px;color:var(--text-muted);white-space:nowrap;margin-top:2px;flex-shrink:0}
+
+/* APPLY */
+.apply-page{max-width:1120px;margin:0 auto;padding:32px 24px 72px;display:grid;grid-template-columns:1fr 340px;gap:32px;align-items:start}
+.step-bar{display:flex;align-items:center;margin-bottom:26px}
+.sb-item{display:flex;align-items:center;gap:8px}
+.sb-circle{width:30px;height:30px;border-radius:50%;background:var(--border);color:var(--text-muted);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:'Inter',sans-serif;transition:all .3s}
+.sb-item.sba .sb-circle{background:var(--blue);color:#fff;box-shadow:0 0 0 4px var(--blue-light)}
+.sb-item.sbd .sb-circle{background:var(--orange);color:#fff}
+.sb-label{font-size:12px;font-weight:600;color:var(--text-muted);white-space:nowrap}
+.sb-item.sba .sb-label{color:var(--blue)}
+.sb-item.sbd .sb-label{color:var(--orange-dark)}
+.sb-line{flex:1;height:2px;background:var(--border);margin:0 8px;border-radius:2px;transition:background .3s}
+.sb-line.sld{background:var(--orange)}
+
+.form-card{background:var(--surface);border-radius:var(--r);border:1px solid var(--border);box-shadow:var(--shadow);overflow:hidden}
+.fc-header{padding:22px 26px 16px;border-bottom:1.5px solid var(--bg);background:var(--bg);display:flex;align-items:flex-start;gap:13px}
+.fc-icon{width:38px;height:38px;border-radius:9px;background:var(--blue-light);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.fc-title{font-size:16px;font-weight:800;color:var(--text);letter-spacing:-.3px;margin-bottom:2px}
+.fc-desc{font-size:12.5px;color:var(--text-muted)}
+.fc-body{padding:26px}
+
+.course-sel-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-bottom:22px}
+.cs-card{border:2px solid var(--border);border-radius:var(--r);padding:18px;cursor:pointer;transition:all .2s;background:#fff;position:relative}
+.cs-card:hover{border-color:var(--blue);box-shadow:var(--shadow)}
+.cs-card.selected{border-color:var(--blue);background:var(--blue-light)}
+.cs-check{position:absolute;top:13px;right:13px;width:20px;height:20px;border-radius:50%;border:2px solid var(--border);transition:all .2s;display:flex;align-items:center;justify-content:center}
+.cs-card.selected .cs-check{background:var(--blue);border-color:var(--blue)}
+.cs-card.selected .cs-check::after{content:'';width:5px;height:9px;border-right:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(45deg) translateY(-1px)}
+.cs-tag{display:inline-block;font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;margin-bottom:10px}
+.cst-a{background:var(--orange-light);color:var(--orange-dark)}
+.cst-b{background:var(--blue-light);color:var(--blue)}
+.cst-c{background:#EDE9FE;color:#6D28D9}
+.cst-d{background:#FCE7F3;color:#9D174D}
+.cs-name{font-size:14px;font-weight:700;color:var(--text);margin-bottom:5px;letter-spacing:-.2px}
+.cs-desc{font-size:12px;color:var(--text-muted);line-height:1.55}
+.cs-meta{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.cs-meta-tag{font-size:11px;color:var(--text-sub)}
+
+.f-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.f-group{margin-bottom:16px}
+.f-group:last-child{margin-bottom:0}
+.f-label{display:block;font-size:12.5px;font-weight:600;color:var(--text-sub);margin-bottom:6px}
+.f-req{color:#EF4444;margin-left:2px}
+.f-opt{font-size:11px;font-weight:400;color:var(--text-muted);margin-left:4px}
+.f-input,.f-select,.f-textarea{width:100%;padding:11px 13px;border:1.5px solid var(--border);border-radius:var(--r-sm);font-size:14px;color:var(--text);font-family:inherit;background:#fff;outline:none;transition:all .15s;-webkit-appearance:none}
+.f-input::placeholder{color:var(--text-muted)}
+.f-input:focus,.f-select:focus,.f-textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(26,79,160,.08)}
+.f-input.ferr,.f-select.ferr{border-color:#EF4444}
+.f-errmsg{font-size:11.5px;color:#EF4444;margin-top:4px;display:none}
+.f-errmsg.fshow{display:block}
+.f-select{background-image:url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%234A5578' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 13px center;padding-right:34px;cursor:pointer}
+.f-textarea{resize:vertical;min-height:90px;line-height:1.6}
+.f-hint{font-size:11.5px;color:var(--text-muted);margin-top:4px}
+.f-divider{border:none;border-top:1.5px solid var(--bg);margin:22px -26px}
+
+.sch-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+.sch-btn{border:1.5px solid var(--border);border-radius:var(--r-sm);padding:11px 8px;text-align:center;cursor:pointer;transition:all .18s;background:#fff}
+.sch-btn:hover{border-color:var(--blue);background:var(--blue-light)}
+.sch-btn.selected{border-color:var(--blue);background:var(--blue-light)}
+.sch-btn.full{opacity:.45;pointer-events:none}
+.sch-date{font-size:12px;font-weight:700;color:var(--text);display:block}
+.sch-time{font-size:11px;color:var(--text-muted);display:block;margin-top:2px}
+.sch-seats{font-size:10px;font-weight:700;margin-top:7px;display:inline-block;padding:2px 8px;border-radius:10px}
+.seats-ok{background:var(--orange-light);color:var(--orange-dark)}
+.seats-low{background:#FEF3C7;color:#92400E}
+.seats-full{background:#FFEBEE;color:#B91C1C}
+
+.agree-all{display:flex;align-items:center;gap:10px;padding:12px 15px;background:var(--blue-light);border-radius:var(--r-sm);margin-bottom:10px;cursor:pointer}
+.agree-all input{width:17px;height:17px;accent-color:var(--blue);cursor:pointer}
+.agree-all-label{font-size:14px;font-weight:700;color:var(--blue);cursor:pointer}
+.agree-item{display:flex;align-items:flex-start;gap:10px;padding:11px 13px;border:1.5px solid var(--border);border-radius:var(--r-sm);margin-bottom:8px;cursor:pointer;transition:border-color .15s;background:#fff}
+.agree-item:hover{border-color:var(--blue)}
+.agree-item input{width:16px;height:16px;accent-color:var(--blue);flex-shrink:0;margin-top:2px;cursor:pointer}
+.ag-title{font-size:13px;font-weight:600;color:var(--text-sub);display:flex;align-items:center;gap:6px}
+.ag-req{font-size:10px;font-weight:700;background:#FFEBEE;color:#B91C1C;padding:1px 6px;border-radius:3px}
+.ag-opt{font-size:10px;font-weight:600;background:var(--bg);color:var(--text-muted);padding:1px 6px;border-radius:3px}
+.ag-desc{font-size:11.5px;color:var(--text-muted);margin-top:3px;line-height:1.5}
+
+.btn-primary{background:var(--blue);color:#fff;border:none;padding:13px 28px;border-radius:9px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s}
+.btn-primary:hover{background:var(--blue-dark)}
+.btn-outline{background:#fff;color:var(--blue);border:1.5px solid var(--blue);padding:12px 24px;border-radius:9px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s}
+.btn-outline:hover{background:var(--blue-light)}
+.btn-orange{background:var(--orange);color:#fff;border:none;padding:14px;border-radius:9px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s;width:100%}
+.btn-orange:hover{background:var(--orange-dark)}
+.btn-row{display:flex;gap:12px;justify-content:space-between;margin-top:8px}
+
+.apply-sidebar{display:flex;flex-direction:column;gap:16px;position:sticky;top:82px}
+.side-card{background:var(--surface);border-radius:var(--r);border:1px solid var(--border);box-shadow:var(--shadow);overflow:hidden}
+.side-header{padding:14px 18px 11px;border-bottom:1px solid var(--gray-light);display:flex;align-items:center;gap:9px}
+.sh-icon{width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px}
+.shi-org{background:var(--orange-light)}.shi-blu{background:var(--blue-light)}
+.sh-title{font-size:13.5px;font-weight:800;color:var(--text);letter-spacing:-.2px}
+.side-body{padding:14px 18px 16px}
+.rm-list{display:flex;flex-direction:column}
+.rm-item{display:flex;gap:12px;align-items:stretch}
+.rm-left{display:flex;flex-direction:column;align-items:center}
+.rm-dot{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;font-family:'Inter',sans-serif;color:#fff;flex-shrink:0}
+.rd1{background:var(--orange)}.rd2{background:var(--blue)}.rd3{background:#7C3AED}
+.rm-line{width:2px;background:var(--border);flex:1;margin:4px 0;min-height:12px}
+.rm-right{padding-bottom:14px;flex:1;padding-top:3px}
+.rm-right h4{font-size:12.5px;font-weight:700;color:var(--text);margin-bottom:2px}
+.rm-right p{font-size:11.5px;color:var(--text-muted);line-height:1.5}
+.ct-list{display:flex;flex-direction:column;gap:9px}
+.ct-row{display:flex;align-items:flex-start;gap:9px}
+.ct-icon{width:28px;height:28px;background:var(--bg);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.ct-txt{font-size:12.5px;color:var(--text-sub);line-height:1.45}
+.ct-txt strong{color:var(--text);font-weight:600;display:block;font-size:11.5px;margin-bottom:1px}
+
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(26,39,64,.55);z-index:300;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+.modal-overlay.show{display:flex}
+.modal{background:#fff;border-radius:18px;padding:44px 36px;max-width:440px;width:90%;text-align:center;animation:mup .3s ease}
+@keyframes mup{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
+.modal-icon{width:64px;height:64px;border-radius:50%;background:var(--orange-light);display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 18px}
+.modal h2{font-size:20px;font-weight:800;color:var(--text);margin-bottom:9px;letter-spacing:-.4px}
+.modal-desc{font-size:13.5px;color:var(--text-sub);line-height:1.7;margin-bottom:20px}
+.modal-num{background:var(--blue-light);border-radius:10px;padding:14px;margin-bottom:20px}
+.modal-num p{font-size:12px;color:var(--text-muted);margin-bottom:3px}
+.modal-num strong{font-size:19px;font-weight:800;color:var(--blue);font-family:'Inter',sans-serif;letter-spacing:1px}
+.btn-modal{width:100%;background:var(--orange);color:#fff;border:none;padding:13px;border-radius:9px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit}
+.btn-modal:hover{background:var(--orange-dark)}
+
+/* FOOTER */
+.footer{background:var(--gray-dark);color:rgba(255,255,255,.5);padding:40px 24px 28px}
+.footer-inner{max-width:1120px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr;gap:40px}
+.fb-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.fb-badge{background:var(--orange);color:#fff;font-size:9px;font-weight:700;padding:2px 8px;border-radius:4px}
+.fb-name{font-size:14px;font-weight:700;color:#fff}
+.fb-desc{font-size:12px;color:rgba(255,255,255,.38);line-height:1.7;margin-bottom:12px}
+.fb-ct{font-size:12px;color:rgba(255,255,255,.42);line-height:1.9}
+.fc-col h4{font-size:11px;font-weight:700;color:rgba(255,255,255,.75);margin-bottom:12px;letter-spacing:.6px;text-transform:uppercase}
+.fc-col ul{list-style:none}
+.fc-col li{margin-bottom:7px}
+.fc-col a{font-size:12px;color:rgba(255,255,255,.38);text-decoration:none;transition:color .15s}
+.fc-col a:hover{color:rgba(255,255,255,.75)}
+.footer-bottom{max-width:1120px;margin:24px auto 0;padding-top:18px;border-top:1px solid rgba(255,255,255,.08);font-size:11px;color:rgba(255,255,255,.25);display:flex;justify-content:space-between}
+
+/* NOTICE */
+.notice-page{max-width:1120px;margin:0 auto;padding:32px 24px 72px}
+.notice-header{margin-bottom:28px}
+.notice-header h2{font-size:22px;font-weight:800;color:var(--text);letter-spacing:-.4px;margin-bottom:4px}
+.notice-header p{font-size:14px;color:var(--text-muted)}
+.notice-list-wrap{background:var(--surface);border-radius:var(--r);border:1px solid var(--border);box-shadow:var(--shadow);overflow:hidden}
+.notice-item{display:flex;align-items:center;gap:14px;padding:16px 22px;border-bottom:1px solid var(--gray-light);cursor:pointer;transition:background .15s}
+.notice-item:last-child{border-bottom:none}
+.notice-item:hover{background:var(--bg)}
+.n-type{font-size:10px;font-weight:700;padding:3px 9px;border-radius:4px;flex-shrink:0}
+.nt-공지{background:var(--blue-light);color:var(--blue)}
+.nt-교육{background:var(--orange-light);color:var(--orange-dark)}
+.nt-소식{background:#F3E8FF;color:#6D28D9}
+.n-title{font-size:13.5px;font-weight:500;color:var(--text-sub);flex:1}
+.n-new{display:inline-block;background:#EF4444;color:#fff;font-size:9px;font-weight:700;padding:1px 5px;border-radius:3px;margin-left:5px;vertical-align:middle}
+.n-date{font-size:11.5px;color:var(--text-muted);flex-shrink:0}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .hero-inner{grid-template-columns:1fr}.hero-card{display:none}
+  .course-grid{grid-template-columns:1fr}
+  .apply-page{grid-template-columns:1fr}.apply-sidebar{position:static}
+  .level-grid{grid-template-columns:1fr}.two-col{grid-template-columns:1fr}
+  .footer-inner{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .nav-links{display:none}.f-row{grid-template-columns:1fr}
+  .course-sel-grid{grid-template-columns:1fr}.sch-grid{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-topbar">화성특례시 AI 혁신학교 AI랩 공식 플랫폼</div>
+  <div class="nav-inner">
+    <div class="nav-logo" onclick="goView('home')">
+      <div class="nav-logo-icon">🤝</div>
+      <div>
+        <div class="nav-logo-name">화성 AI 시민리더 잇다(IT-DA)</div>
+        <span class="nav-logo-sub">화성특례시 AI 시민 리더 양성 플랫폼</span>
+      </div>
+    </div>
+    <div class="nav-links">
+      <a id="nav-home" onclick="goView('home')">홈</a>
+      <a id="nav-apply" onclick="requireLogin('apply')">수강 신청</a>
+      <a id="nav-dash" onclick="requireLogin('dashboard')">나의 현황</a>
+      <a id="nav-notice" onclick="goView('notice')">알림마당</a>
+    </div>
+    <div class="nav-right" id="nav-guest">
+      <button class="btn-nav-login" onclick="goView('login')">로그인</button>
+      <button class="btn-nav-join" onclick="requireLogin('apply')">신청하기</button>
+    </div>
+    <div class="nav-user" id="nav-user">
+      <div class="nav-avatar" id="nav-av">김</div>
+      <span class="nav-username" id="nav-uname">김화성</span>
+      <button class="btn-nav-logout" onclick="logout()">로그아웃</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ══ HOME ══ -->
+<div id="view-home" class="view active">
+  <div class="ticker">
+    <div class="ticker-track">
+      <span class="ticker-item"><span class="ticker-tag">NEW</span> 2026년 하반기 AI 시민 리더 2기 모집이 시작됩니다.</span>
+      <span class="ticker-item"><span class="ticker-tag">NEW</span> 5월 AI 기초 과정 수강생을 모집합니다. 선착순 40명.</span>
+      <span class="ticker-item"><span class="ticker-tag">NEW</span> AI 혁신센터 강사 파견 서비스 동탄·봉담 확대 운영.</span>
+      <span class="ticker-item"><span class="ticker-tag">NEW</span> 2026 화성시 AI랩 우수 수강생 장학금 신청 안내.</span>
+      <span class="ticker-item"><span class="ticker-tag">NEW</span> 2026년 하반기 AI 시민 리더 2기 모집이 시작됩니다.</span>
+      <span class="ticker-item"><span class="ticker-tag">NEW</span> 5월 AI 기초 과정 수강생을 모집합니다. 선착순 40명.</span>
+      <span class="ticker-item"><span class="ticker-tag">NEW</span> AI 혁신센터 강사 파견 서비스 동탄·봉담 확대 운영.</span>
+      <span class="ticker-item"><span class="ticker-tag">NEW</span> 2026 화성시 AI랩 우수 수강생 장학금 신청 안내.</span>
+    </div>
+  </div>
+  <section class="hero">
+    <div class="hero-grid"></div><div class="hero-glow1"></div><div class="hero-glow2"></div>
+    <div class="hero-inner">
+      <div>
+        <div class="hero-eye"><span class="hero-dot"></span>2026 AI 혁신학교 AI랩 운영 중</div>
+        <h1>화성의 인재(人)를<br>지역 사회와 <em>잇다,</em><br>미래 교육의 가치를 잇다.</h1>
+        <p class="hero-desc">AI 시민 리더 양성과정에 참여하고, 지역 사회를 변화시키는 강사로 성장하세요. 화성특례시가 함께합니다.</p>
+        <div class="hero-cta">
+          <button class="btn-hero-p" onclick="requireLogin('apply')">수강 신청하기 →</button>
+          <button class="btn-hero-g" onclick="requireLogin('dashboard')">나의 현황 보기</button>
+        </div>
+      </div>
+      <div class="hero-card">
+        <div class="hc-label">LIVE · 플랫폼 현황</div>
+        <div class="hc-grid">
+          <div class="hc-stat"><span class="hc-num org">47</span><span class="hc-sub">활동 중인 AI 리더</span></div>
+          <div class="hc-stat"><span class="hc-num">156</span><span class="hc-sub">누적 교육 실적</span></div>
+          <div class="hc-stat"><span class="hc-num">1,240</span><span class="hc-sub">총 수강생</span></div>
+          <div class="hc-stat"><span class="hc-num org">98%</span><span class="hc-sub">수강생 만족도</span></div>
+        </div>
+        <hr class="hc-div">
+        <div class="hc-steps">
+          <div class="hc-step"><div class="hc-step-n">1</div><span class="hc-step-t">과정 선택 후 신청서 작성</span></div>
+          <div class="hc-step"><div class="hc-step-n">2</div><span class="hc-step-t">운영자 검토 및 합격 통보</span></div>
+          <div class="hc-step"><div class="hc-step-n">3</div><span class="hc-step-t">교육 참여 후 수료증 발급</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="home-section">
+    <div class="hs-title">AI 시민 리더 양성 과정</div>
+    <div class="hs-desc">초급부터 고급까지 3단계로 체계적으로 배우고 성장하세요</div>
+    <div class="course-grid">
+      <div class="course-card cc-basic">
+        <div class="cc-icon cci-a">🌱</div>
+        <div class="cc-step cs-a">STEP 1 · 초급</div>
+        <div class="cc-title">AI 기초 과정</div>
+        <div class="cc-desc">AI를 처음 접하는 시민을 위한 입문 과정. 생성형 AI 개념과 일상 속 활용법을 학습합니다.</div>
+        <div class="cc-tags"><span class="cc-tag">📅 8주 과정</span><span class="cc-tag">👥 20명 정원</span><span class="cc-tag">💰 무료</span></div>
+        <button class="cc-btn ccb-a" onclick="requireLogin('apply')">초급 과정 신청하기</button>
+      </div>
+      <div class="course-card cc-inter">
+        <div class="cc-icon cci-b">🚀</div>
+        <div class="cc-step cs-b">STEP 2 · 중급</div>
+        <div class="cc-title">AI 시민 리더 양성 과정</div>
+        <div class="cc-desc">초급 수료자 대상. AI 교육 강사 역량 개발, 커리큘럼 설계, 모의 강의 실습 포함.</div>
+        <div class="cc-tags"><span class="cc-tag">📅 12주 과정</span><span class="cc-tag">👥 15명 정원</span><span class="cc-tag">💰 무료</span></div>
+        <button class="cc-btn ccb-b" onclick="requireLogin('apply')">중급 과정 신청하기</button>
+      </div>
+      <div class="course-card cc-adv">
+        <div class="cc-icon cci-c">⭐</div>
+        <div class="cc-step cs-c">STEP 3 · 고급</div>
+        <div class="cc-title">전문 AI 강사 심화 과정</div>
+        <div class="cc-desc">중급 수료자 대상. 실전 강의 전략, 지역 맞춤 AI 교육 설계, 전문 강사 인증 취득.</div>
+        <div class="cc-tags"><span class="cc-tag">📅 8주 과정</span><span class="cc-tag">👥 10명 정원</span><span class="cc-tag">💰 무료</span></div>
+        <button class="cc-btn ccb-c" onclick="requireLogin('apply')">고급 과정 신청하기</button>
+      </div>
+    </div>
+  </div>
+  <footer class="footer">
+    <div class="footer-inner">
+      <div>
+        <div class="fb-row"><span class="fb-badge">화성시</span><span class="fb-name">화성 AI 시민리더 잇다(IT-DA)</span></div>
+        <p class="fb-desc">화성특례시 AI 혁신학교 AI랩이 운영하는 시민 리더 양성 통합 관리 플랫폼입니다.</p>
+        <div class="fb-ct">📍 AI 혁신센터 본원 — 스마트통합운영센터 4층<br>📞 AI스마트전략실 031-5189-1757</div>
+      </div>
+      <div class="fc-col"><h4>교육 과정</h4><ul><li><a href="#">STEP 1 · AI 기초</a></li><li><a href="#">STEP 2 · 시민 리더</a></li><li><a href="#">STEP 3 · 전문 강사</a></li></ul></div>
+      <div class="fc-col"><h4>이용 안내</h4><ul><li><a href="#">이용 약관</a></li><li><a href="#">개인정보처리방침</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><span>© 2026 Hwaseong Special City. All rights reserved.</span><span>화성특례시 AI 시민 리더 양성 플랫폼</span></div>
+  </footer>
+</div>
+
+<!-- ══ LOGIN ══ -->
+<div id="view-login" class="view">
+  <div class="login-wrap">
+    <div class="login-box">
+      <div class="login-header">
+        <div class="lh-icon">🤝</div>
+        <div class="lh-title">화성 AI 시민리더 잇다</div>
+        <div class="lh-sub">로그인하고 나의 학습 현황을 확인하세요</div>
+      </div>
+      <div class="login-body">
+        <div class="demo-accounts">
+          <div class="da-title">🔑 테스트 계정 (클릭하면 자동 입력)</div>
+          <div class="da-row" onclick="fillLogin('basic@test.com','1234')">
+            <span class="da-label">🌱 초급 수강 중 — 김화성</span>
+            <span class="da-cred">basic@test.com / 1234</span>
+            <span class="da-fill">입력</span>
+          </div>
+          <div class="da-row" onclick="fillLogin('inter@test.com','1234')">
+            <span class="da-label">🚀 중급 수강 중 — 이동탄</span>
+            <span class="da-cred">inter@test.com / 1234</span>
+            <span class="da-fill">입력</span>
+          </div>
+          <div class="da-row" onclick="fillLogin('done@test.com','1234')">
+            <span class="da-label">🏅 시민 리더 인증 — 박봉담</span>
+            <span class="da-cred">done@test.com / 1234</span>
+            <span class="da-fill">입력</span>
+          </div>
+          <div class="da-row" onclick="fillLogin('new@test.com','1234')">
+            <span class="da-label">📋 신청 완료 — 최향남</span>
+            <span class="da-cred">new@test.com / 1234</span>
+            <span class="da-fill">입력</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">이메일</label>
+          <input type="email" class="form-input" id="login-email" placeholder="이메일을 입력하세요">
+          <p class="form-err" id="login-err">이메일 또는 비밀번호가 올바르지 않습니다</p>
+        </div>
+        <div class="form-group">
+          <label class="form-label">비밀번호</label>
+          <input type="password" class="form-input" id="login-pw" placeholder="비밀번호를 입력하세요">
+        </div>
+        <button class="btn-login" onclick="doLogin()">로그인</button>
+        <div class="login-footer">계정이 없으신가요? <a onclick="requireLogin('apply')">수강 신청하기</a></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ DASHBOARD ══ -->
+<div id="view-dashboard" class="view">
+  <div class="dash-page">
+    <div class="dash-banner">
+      <div class="db-dots"></div><div class="db-glow"></div>
+      <div class="db-inner">
+        <div>
+          <div class="db-eye">나의 시민 리더 양성 현황</div>
+          <div class="db-name" id="db-name">김화성 님, 초급 과정 수강 중입니다!</div>
+          <div class="db-sub" id="db-sub">AI 기초 과정 3주차 진행 중</div>
+        </div>
+        <div class="db-right">
+          <div class="db-badge">
+            <div class="db-badge-label">현재 단계</div>
+            <div class="db-badge-value" id="db-status">🟢 초급 수강 중</div>
+          </div>
+          <button class="dash-apply-btn" onclick="goView('apply')">+ 과정 신청</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="stepper-card">
+      <div class="sc-title">전체 신청·양성 과정</div>
+      <div class="sc-desc">신청부터 AI 시민 리더 인증까지 총 7단계</div>
+      <div class="stepper" id="db-stepper"></div>
+      <div class="cur-box">
+        <div class="cur-icon" id="db-cur-icon">📚</div>
+        <div style="flex:1">
+          <div class="cur-title" id="db-cur-title">초급 과정 수강 중</div>
+          <div class="cur-desc" id="db-cur-desc">AI 기초 과정 3주차 진행 중입니다.</div>
+        </div>
+        <div class="cur-badge" id="db-cur-badge">3 / 8주차</div>
+      </div>
+    </div>
+
+    <div class="level-grid" id="db-levels"></div>
+
+    <div class="check-card">
+      <div class="ck-title">✅ 시민 리더 인증 체크리스트</div>
+      <div class="ck-desc">아래 항목을 모두 완료하면 화성특례시 공식 AI 시민 리더로 인증됩니다</div>
+      <div class="checklist" id="db-checklist"></div>
+    </div>
+
+    <div class="two-col">
+      <div class="info-card">
+        <div class="ic-header"><div class="ic-icon ici-blue">📅</div><div class="ic-title">다가오는 일정</div></div>
+        <div class="ic-body"><div class="next-list" id="db-next"></div></div>
+      </div>
+      <div class="info-card">
+        <div class="ic-header"><div class="ic-icon ici-orange">🔔</div><div class="ic-title">최근 알림</div></div>
+        <div class="ic-body"><div class="notif-list" id="db-notif"></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ APPLY ══ -->
+<div id="view-apply" class="view">
+  <div class="apply-page">
+    <div>
+      <div class="step-bar" id="apply-stepbar"></div>
+      <div id="ap-step1" class="form-card">
+        <div class="fc-header"><div class="fc-icon">🎓</div><div><div class="fc-title">교육 과정 선택</div><div class="fc-desc">참여하실 AI 시민 리더 양성과정을 선택해주세요</div></div></div>
+        <div class="fc-body">
+          <div class="course-sel-grid">
+            <div class="cs-card selected" onclick="selectCourse(this,'AI 기초 과정 (초급)')">
+              <div class="cs-check"></div><span class="cs-tag cst-a">STEP 1 · 초급</span>
+              <div class="cs-name">AI 기초 과정</div>
+              <div class="cs-desc">생성형 AI 개념, ChatGPT·Gemini 활용법, 일상 속 AI 도구 실습.</div>
+              <div class="cs-meta"><span class="cs-meta-tag">📅 8주</span>&nbsp;<span class="cs-meta-tag">👥 20명</span>&nbsp;<span class="cs-meta-tag">💰 무료</span></div>
+            </div>
+            <div class="cs-card" onclick="selectCourse(this,'AI 시민 리더 과정 (중급)')">
+              <div class="cs-check"></div><span class="cs-tag cst-b">STEP 2 · 중급</span>
+              <div class="cs-name">AI 시민 리더 양성 과정</div>
+              <div class="cs-desc">AI 교육 강사 역량 개발, 커리큘럼 설계, 모의 강의 실습.</div>
+              <div class="cs-meta"><span class="cs-meta-tag">📅 12주</span>&nbsp;<span class="cs-meta-tag">👥 15명</span>&nbsp;<span class="cs-meta-tag">💰 무료</span></div>
+            </div>
+            <div class="cs-card" onclick="selectCourse(this,'전문 AI 강사 심화 과정 (고급)')">
+              <div class="cs-check"></div><span class="cs-tag cst-c">STEP 3 · 고급</span>
+              <div class="cs-name">전문 AI 강사 심화 과정</div>
+              <div class="cs-desc">실전 강의 전략, 지역 맞춤 AI 교육 설계, 전문 강사 인증 취득.</div>
+              <div class="cs-meta"><span class="cs-meta-tag">📅 8주</span>&nbsp;<span class="cs-meta-tag">👥 10명</span>&nbsp;<span class="cs-meta-tag">💰 무료</span></div>
+            </div>
+            <div class="cs-card" onclick="selectCourse(this,'강사 파견 요청')">
+              <div class="cs-check"></div><span class="cs-tag cst-d">파견 요청</span>
+              <div class="cs-name">강사 파견 요청</div>
+              <div class="cs-desc">우리 기관·단체로 AI 시민 리더 강사를 파견 요청합니다.</div>
+              <div class="cs-meta"><span class="cs-meta-tag">📍 동탄·봉담</span>&nbsp;<span class="cs-meta-tag">📞 사전 협의</span></div>
+            </div>
+          </div>
+          <div style="text-align:right"><button class="btn-primary" onclick="apStep(2)">다음 → 신청자 정보</button></div>
+        </div>
+      </div>
+
+      <div id="ap-step2" class="form-card" style="display:none">
+        <div class="fc-header"><div class="fc-icon">👤</div><div><div class="fc-title">신청자 정보 입력</div><div class="fc-desc">수강 확인 및 안내에 사용되는 정보를 입력해주세요</div></div></div>
+        <div class="fc-body">
+          <div class="f-row">
+            <div class="f-group"><label class="f-label">이름<span class="f-req">*</span></label><input type="text" class="f-input" id="f-name" placeholder="홍길동"><p class="f-errmsg" id="ferr-name">이름을 입력해주세요</p></div>
+            <div class="f-group"><label class="f-label">생년월일<span class="f-req">*</span></label><input type="text" class="f-input" id="f-birth" placeholder="19900101"><p class="f-errmsg" id="ferr-birth">생년월일을 입력해주세요</p></div>
+          </div>
+          <div class="f-row">
+            <div class="f-group"><label class="f-label">연락처<span class="f-req">*</span></label><input type="tel" class="f-input" id="f-phone" placeholder="010-0000-0000"><p class="f-errmsg" id="ferr-phone">연락처를 입력해주세요</p></div>
+            <div class="f-group"><label class="f-label">이메일<span class="f-req">*</span></label><input type="email" class="f-input" id="f-email" placeholder="example@email.com"><p class="f-errmsg" id="ferr-email">이메일을 입력해주세요</p></div>
+          </div>
+          <hr class="f-divider">
+          <div class="f-row">
+            <div class="f-group"><label class="f-label">거주 지역<span class="f-req">*</span></label>
+              <select class="f-select" id="f-region"><option value="">지역 선택</option><option>동탄1동</option><option>동탄2동</option><option>동탄3동</option><option>동탄4동</option><option>봉담읍</option><option>향남읍</option><option>남양읍</option><option>비봉면</option><option>기타</option></select>
+              <p class="f-errmsg" id="ferr-region">지역을 선택해주세요</p></div>
+            <div class="f-group"><label class="f-label">직업·소속<span class="f-req">*</span></label>
+              <select class="f-select" id="f-job"><option value="">직업 선택</option><option>직장인</option><option>자영업자</option><option>공무원</option><option>교직원</option><option>주부</option><option>학생</option><option>은퇴·무직</option><option>기관·단체 소속</option><option>기타</option></select>
+              <p class="f-errmsg" id="ferr-job">직업을 선택해주세요</p></div>
+          </div>
+          <div class="f-group"><label class="f-label">AI 활용 경험<span class="f-req">*</span></label>
+            <select class="f-select" id="f-level"><option value="">경험 수준 선택</option><option>전혀 없음 (처음 접함)</option><option>ChatGPT 등 기본 사용 경험</option><option>업무·생활에 AI 활용 중</option><option>AI 교육 수강 경험 있음</option><option>AI 관련 업무·연구 종사</option></select>
+            <p class="f-errmsg" id="ferr-level">경험 수준을 선택해주세요</p></div>
+          <hr class="f-divider">
+          <div class="f-group"><label class="f-label">지원 동기<span class="f-req">*</span></label>
+            <textarea class="f-textarea" id="f-motiv" placeholder="이 과정에 참여하고 싶은 이유, 배우고 싶은 것 등을 30자 이상 작성해주세요."></textarea>
+            <p class="f-errmsg" id="ferr-motiv">지원 동기를 30자 이상 입력해주세요</p></div>
+          <div class="btn-row">
+            <button class="btn-outline" onclick="apStep(1)">← 이전</button>
+            <button class="btn-primary" onclick="apStep(3)">다음 → 일정 선택</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="ap-step3" class="form-card" style="display:none">
+        <div class="fc-header"><div class="fc-icon">📅</div><div><div class="fc-title">교육 일정 선택 및 동의</div><div class="fc-desc">원하시는 일정을 선택하고 약관에 동의해주세요</div></div></div>
+        <div class="fc-body">
+          <div class="f-group">
+            <label class="f-label" style="margin-bottom:12px">교육 일정 선택<span class="f-req">*</span></label>
+            <div class="sch-grid">
+              <div class="sch-btn" onclick="selSch(this)"><span class="sch-date">6월 2일 (월)</span><span class="sch-time">오전 10:00~12:00</span><span class="sch-seats seats-ok">잔여 8석</span></div>
+              <div class="sch-btn" onclick="selSch(this)"><span class="sch-date">6월 2일 (월)</span><span class="sch-time">오후 2:00~4:00</span><span class="sch-seats seats-ok">잔여 5석</span></div>
+              <div class="sch-btn" onclick="selSch(this)"><span class="sch-date">6월 4일 (수)</span><span class="sch-time">오전 10:00~12:00</span><span class="sch-seats seats-low">잔여 2석</span></div>
+              <div class="sch-btn" onclick="selSch(this)"><span class="sch-date">6월 4일 (수)</span><span class="sch-time">오후 7:00~9:00</span><span class="sch-seats seats-ok">잔여 10석</span></div>
+              <div class="sch-btn" onclick="selSch(this)"><span class="sch-date">6월 7일 (토)</span><span class="sch-time">오전 10:00~12:00</span><span class="sch-seats seats-low">잔여 1석</span></div>
+              <div class="sch-btn full"><span class="sch-date">6월 9일 (월)</span><span class="sch-time">오전 10:00~12:00</span><span class="sch-seats seats-full">마감</span></div>
+            </div>
+            <p class="f-hint" style="margin-top:9px">※ 교육 장소: AI 혁신센터 본원 (스마트통합운영센터 4층)</p>
+            <p class="f-errmsg" id="ferr-sch">교육 일정을 선택해주세요</p>
+          </div>
+          <hr class="f-divider">
+          <div class="f-group">
+            <label class="f-label" style="margin-bottom:12px">약관 동의<span class="f-req">*</span></label>
+            <div class="agree-all" onclick="toggleAll()"><input type="checkbox" id="ag-all"><label class="agree-all-label" for="ag-all">전체 동의합니다</label></div>
+            <div class="agree-item" onclick="togAg('ag1')"><input type="checkbox" id="ag1"><div><div class="ag-title">이용 약관 동의<span class="ag-req">필수</span></div><p class="ag-desc">화성 AI 시민리더 잇다(IT-DA) 이용약관에 동의합니다.</p></div></div>
+            <div class="agree-item" onclick="togAg('ag2')"><input type="checkbox" id="ag2"><div><div class="ag-title">개인정보 수집·이용 동의<span class="ag-req">필수</span></div><p class="ag-desc">교육 운영 목적으로 개인정보를 수집·이용하는 것에 동의합니다. (보관기간 3년)</p></div></div>
+            <div class="agree-item" onclick="togAg('ag3')"><input type="checkbox" id="ag3"><div><div class="ag-title">출석·수료 기준 확인<span class="ag-req">필수</span></div><p class="ag-desc">전체 교육 시간의 80% 이상 출석 시 수료증이 발급됩니다.</p></div></div>
+            <div class="agree-item" onclick="togAg('ag4')"><input type="checkbox" id="ag4"><div><div class="ag-title">사진·영상 활용 동의<span class="ag-opt">선택</span></div><p class="ag-desc">교육 과정 중 촬영된 사진·영상이 공식 홍보물에 활용될 수 있습니다.</p></div></div>
+            <p class="f-errmsg" id="ferr-ag">필수 약관에 모두 동의해주세요</p>
+          </div>
+          <div class="btn-row">
+            <button class="btn-outline" onclick="apStep(2)">← 이전</button>
+            <button class="btn-orange" style="width:auto;padding:13px 40px" onclick="submitApply()">신청서 제출하기 ✓</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <aside class="apply-sidebar">
+      <div class="side-card">
+        <div class="side-header"><div class="sh-icon shi-org">🗺️</div><div class="sh-title">AI 시민 리더 로드맵</div></div>
+        <div class="side-body">
+          <div class="rm-list">
+            <div class="rm-item"><div class="rm-left"><div class="rm-dot rd1">1</div><div class="rm-line"></div></div><div class="rm-right"><h4>STEP 1 · 초급 과정</h4><p>생성형 AI 개념, ChatGPT·Gemini 활용법. 8주·40시간.</p></div></div>
+            <div class="rm-item"><div class="rm-left"><div class="rm-dot rd2">2</div><div class="rm-line"></div></div><div class="rm-right"><h4>STEP 2 · 중급 과정</h4><p>AI 강사 역량 개발, 커리큘럼 설계, 모의 강의. 12주·60시간.</p></div></div>
+            <div class="rm-item"><div class="rm-left"><div class="rm-dot rd3">3</div></div><div class="rm-right" style="padding-bottom:0"><h4>STEP 3 · 고급 과정</h4><p>실전 강의 전략, 지역 맞춤 설계, 인증 취득. 8주·48시간.</p></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="side-card">
+        <div class="side-header"><div class="sh-icon shi-blu">📞</div><div class="sh-title">문의 안내</div></div>
+        <div class="side-body">
+          <div class="ct-list">
+            <div class="ct-row"><div class="ct-icon">📍</div><div class="ct-txt"><strong>교육 장소</strong>AI 혁신센터 (스마트통합운영센터 4층)</div></div>
+            <div class="ct-row"><div class="ct-icon">📞</div><div class="ct-txt"><strong>전화 문의</strong>031-5189-1757 (AI스마트전략실)</div></div>
+            <div class="ct-row"><div class="ct-icon">🕘</div><div class="ct-txt"><strong>운영 시간</strong>평일 09:00~18:00</div></div>
+            <div class="ct-row"><div class="ct-icon">✉️</div><div class="ct-txt"><strong>이메일</strong>ai.lab@hwaseong.go.kr</div></div>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<!-- ══ NOTICE ══ -->
+<div id="view-notice" class="view">
+  <div class="notice-page">
+    <div class="notice-header">
+      <h2>알림마당</h2>
+      <p>화성 AI 시민리더 잇다(IT-DA) 최신 소식을 확인하세요</p>
+    </div>
+    <div class="notice-list-wrap">
+      <div class="notice-item"><span class="n-type nt-공지">공지</span><span class="n-title">2026년 하반기 AI 시민 리더 2기 모집 공고<span class="n-new">N</span></span><span class="n-date">2026.05.22</span></div>
+      <div class="notice-item"><span class="n-type nt-교육">교육</span><span class="n-title">5월 AI 기초 과정 수강생 모집<span class="n-new">N</span></span><span class="n-date">2026.05.20</span></div>
+      <div class="notice-item"><span class="n-type nt-소식">소식</span><span class="n-title">AI 시민 리더 1기 수료식 성황리 개최</span><span class="n-date">2026.05.15</span></div>
+      <div class="notice-item"><span class="n-type nt-공지">공지</span><span class="n-title">AI 혁신센터 5월 운영 일정 안내</span><span class="n-date">2026.05.10</span></div>
+      <div class="notice-item"><span class="n-type nt-교육">교육</span><span class="n-title">강사 파견 서비스 동탄·봉담 확대 운영</span><span class="n-date">2026.05.08</span></div>
+      <div class="notice-item"><span class="n-type nt-공지">공지</span><span class="n-title">2026 화성시 AI랩 우수 수강생 장학금 신청 안내</span><span class="n-date">2026.04.30</span></div>
+      <div class="notice-item"><span class="n-type nt-소식">소식</span><span class="n-title">화성시 AI 혁신센터 개소 1주년 기념 행사</span><span class="n-date">2026.04.20</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <div class="modal-icon">✅</div>
+    <h2>신청이 완료되었습니다!</h2>
+    <p class="modal-desc">AI 시민 리더 양성과정 신청이 정상적으로 접수되었습니다.<br>입력하신 연락처로 합격 결과를 안내드리겠습니다.</p>
+    <div class="modal-num"><p>신청 접수 번호</p><strong id="modal-num">2026-0522-0001</strong></div>
+    <button class="btn-modal" onclick="closeModal()">나의 현황 보러가기 →</button>
+  </div>
+</div>
+
+<script>
+const ACCOUNTS={
+  'basic@test.com':{pw:'1234',name:'김화성',avatar:'김',state:3},
+  'inter@test.com':{pw:'1234',name:'이동탄',avatar:'이',state:5},
+  'done@test.com': {pw:'1234',name:'박봉담',avatar:'박',state:8},
+  'new@test.com':  {pw:'1234',name:'최향남',avatar:'최',state:1},
+};
+const DASH_STEPS=[
+  {name:'신청 완료',icon:'📋'},{name:'심사 진행',icon:'🔍'},
+  {name:'합격 통보',icon:'✉️'},{name:'초급 과정',icon:'🌱'},
+  {name:'중급 과정',icon:'🚀'},{name:'고급 과정',icon:'⭐'},
+  {name:'리더 인증',icon:'🏅'},
+];
+const STATES=[
+  {stepDone:-1,stepIng:-1,status:'⬜ 신청 전',
+   cur:{icon:'📝',title:'신청이 필요합니다',desc:'신청서를 제출하면 운영자 검토 후 합격 통보를 받게 됩니다.',badge:'신청하기 →'},
+   levels:[0,0,0],checks:[0,0,0,0,0],
+   next:[{d:'상시',t:'AI 시민 리더 양성과정 신청',dd:'신청 가능'}],
+   notifs:[{c:'nd-blu',t:'<strong>신청 안내</strong> — 2기 모집이 시작되었습니다.',tm:'방금'}]},
+  {stepDone:0,stepIng:1,status:'🔍 심사 진행 중',
+   cur:{icon:'🔍',title:'신청서 심사 중',desc:'운영자가 신청서를 검토 중입니다. 3~5 영업일 내 결과를 안내드립니다.',badge:'#2026-0042'},
+   levels:[0,0,0],checks:[1,0,0,0,0],
+   next:[{d:'~ 6.10',t:'심사 결과 발표 예정',dd:'D-19'}],
+   notifs:[
+     {c:'nd-org',t:'<strong>신청 접수 완료</strong> — 신청서가 정상 접수되었습니다.',tm:'방금'},
+     {c:'nd-blu',t:'<strong>심사 안내</strong> — 결과는 이메일로 발송됩니다.',tm:'방금'},
+   ]},
+  {stepDone:0,stepIng:1,status:'🔍 심사 진행 중',
+   cur:{icon:'🔍',title:'서류 심사 중',desc:'지원 동기 및 자격 요건을 검토 중입니다.',badge:'#2026-0042'},
+   levels:[0,0,0],checks:[1,0,0,0,0],
+   next:[{d:'~ 6.10',t:'심사 결과 발표',dd:'D-19'}],
+   notifs:[{c:'nd-blu',t:'<strong>심사 중</strong> — 신청서를 검토하고 있습니다.',tm:'2일 전'}]},
+  {stepDone:2,stepIng:3,status:'🟢 초급 수강 중',
+   cur:{icon:'📚',title:'초급 과정 수강 중',desc:'AI 기초 과정 3주차 진행 중입니다. 꾸준히 출석하면 8주 후 수료증을 받을 수 있어요.',badge:'3 / 8주차'},
+   levels:[37,0,0],checks:[1,1,0,0,0],
+   next:[{d:'6월 4일',t:'초급 4주차 · 이미지 AI 실습',dd:'D-13'},{d:'6월 11일',t:'초급 5주차 · 업무 자동화',dd:'D-20'}],
+   notifs:[
+     {c:'nd-blu',t:'<strong>4주차 수업 안내</strong> — 6월 4일(수) 오전 10시 수업이 예정됩니다.',tm:'방금'},
+     {c:'nd-org',t:'<strong>출석 확인</strong> — 3주차 출석이 정상 처리되었습니다.',tm:'3일 전'},
+   ]},
+  {stepDone:3,stepIng:4,status:'✅ 초급 수료 완료',
+   cur:{icon:'🎉',title:'초급 과정 수료 완료!',desc:'AI 기초 과정을 수료했습니다. 중급 과정을 신청해 다음 단계로 나아가세요.',badge:'중급 신청하기 →'},
+   levels:[100,0,0],checks:[1,1,1,0,0],
+   next:[{d:'상시',t:'중급 과정 신청 가능',dd:'신청 가능'},{d:'6월 말',t:'중급 과정 개강 예정',dd:'D-39'}],
+   notifs:[{c:'nd-org',t:'<strong>초급 수료 완료</strong> — 수료증이 발급되었습니다.',tm:'방금'}]},
+  {stepDone:3,stepIng:4,status:'🔵 중급 수강 중',
+   cur:{icon:'🚀',title:'중급 과정 수강 중',desc:'AI 시민 리더 과정 7주차 진행 중입니다. 모의 강의 발표를 준비해주세요.',badge:'7 / 12주차'},
+   levels:[100,58,0],checks:[1,1,1,0,0],
+   next:[{d:'6월 4일',t:'중급 8주차 · 모의 강의 1차',dd:'D-13'},{d:'6월 18일',t:'중급 9주차 · 강의 피드백',dd:'D-27'}],
+   notifs:[
+     {c:'nd-blu',t:'<strong>8주차 수업 안내</strong> — 6월 4일 모의 강의 발표.',tm:'방금'},
+     {c:'nd-org',t:'<strong>중간 평가 결과</strong> — 87점으로 합격 처리되었습니다.',tm:'1일 전'},
+   ]},
+  {stepDone:4,stepIng:5,status:'✅ 중급 수료 완료',
+   cur:{icon:'🎉',title:'중급 과정 수료 완료!',desc:'AI 시민 리더 과정을 수료했습니다. 고급 과정을 신청해 전문 강사로 성장하세요.',badge:'고급 신청하기 →'},
+   levels:[100,100,0],checks:[1,1,1,1,0],
+   next:[{d:'상시',t:'고급 과정 신청 가능',dd:'신청 가능'}],
+   notifs:[{c:'nd-org',t:'<strong>중급 수료 완료</strong> — 수료증이 발급되었습니다.',tm:'방금'}]},
+  {stepDone:4,stepIng:5,status:'⭐ 고급 수강 중',
+   cur:{icon:'⭐',title:'고급 과정 수강 중',desc:'전문 AI 강사 심화 과정 4주차 진행 중입니다.',badge:'4 / 8주차'},
+   levels:[100,100,50],checks:[1,1,1,1,0],
+   next:[{d:'6월 11일',t:'고급 5주차 · 실전 강의 실습',dd:'D-20'},{d:'7월 9일',t:'고급 최종 발표',dd:'D-48'}],
+   notifs:[{c:'nd-blu',t:'<strong>5주차 수업 안내</strong> — 6월 11일 실전 강의 실습.',tm:'방금'}]},
+  {stepDone:6,stepIng:-1,status:'🏅 시민 리더 인증 완료',
+   cur:{icon:'🏅',title:'AI 시민 리더 인증 완료!',desc:'모든 과정을 수료하고 화성특례시 공식 AI 시민 리더로 인증되었습니다.',badge:'강사 활동 시작 →'},
+   levels:[100,100,100],checks:[1,1,1,1,1],
+   next:[{d:'상시',t:'강사 파견 신청 가능',dd:'활동 중'}],
+   notifs:[
+     {c:'nd-org',t:'<strong>인증 완료</strong> — AI 시민 리더 인증서가 발급되었습니다.',tm:'방금'},
+     {c:'nd-blu',t:'<strong>파견 신청 안내</strong> — 강사 매칭 플랫폼에서 신청 가능합니다.',tm:'방금'},
+   ]},
+];
+const LEVEL_DATA=[
+  {icon:'🌱',stepCls:'lcs-a',boxCls:'lib-a',step:'STEP 1 · 초급',title:'AI 기초 과정',desc:'생성형 AI 개념, ChatGPT·Gemini 활용법, 일상 속 AI 도구 실습',weeks:'8주·40시간',fill:'fill-orange',pct:'lcp-orange',doneT:'✓ 수료 완료 · 2026.03.28',ingT:p=>p+'% 완료',waitT:'합격 후 시작',lockT:'합격 후 시작'},
+  {icon:'🚀',stepCls:'lcs-b',boxCls:'lib-b',step:'STEP 2 · 중급',title:'AI 시민 리더 양성 과정',desc:'AI 교육 강사 역량 개발, 커리큘럼 설계, 모의 강의 실습',weeks:'12주·60시간',fill:'fill-blue',pct:'lcp-blue',doneT:'✓ 수료 완료 · 2026.08.01',ingT:p=>p+'% 완료',waitT:'초급 수료 후 신청',lockT:'🔒 초급 수료 필요'},
+  {icon:'⭐',stepCls:'lcs-c',boxCls:'lib-c',step:'STEP 3 · 고급',title:'전문 AI 강사 심화 과정',desc:'실전 강의 전략, 지역 맞춤 AI 교육 설계, 전문 강사 인증',weeks:'8주·48시간',fill:'fill-purple',pct:'lcp-blue',doneT:'✓ 수료 완료 · 2026.10.10',ingT:p=>p+'% 완료',waitT:'중급 수료 후 신청',lockT:'🔒 중급 수료 필요'},
+];
+const CHECKS_DATA=[
+  {n:'수강 신청 완료',s:'양성과정 신청서 제출 및 접수 확인'},
+  {n:'초급 과정 수료',s:'AI 기초 과정 (8주) · 출석 80% 이상 · 최종 평가 통과'},
+  {n:'중급 과정 수료',s:'AI 시민 리더 과정 (12주) · 모의 강의 발표 포함'},
+  {n:'고급 과정 수료',s:'전문 AI 강사 심화 과정 (8주) · 최종 실습 발표'},
+  {n:'AI 시민 리더 공식 인증',s:'화성특례시장 명의 인증서 발급 · 강사 활동 자격 취득'},
+];
+
+let currentUser=null, afterLoginGo=null, selectedSch=null;
+
+function goView(v){
+  document.querySelectorAll('.view').forEach(el=>el.classList.remove('active'));
+  document.getElementById('view-'+v).classList.add('active');
+  document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));
+  const map={home:'nav-home',apply:'nav-apply',dashboard:'nav-dash',notice:'nav-notice'};
+  if(map[v]) document.getElementById(map[v]).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function requireLogin(dest){
+  if(currentUser){goView(dest);if(dest==='dashboard')renderDash();}
+  else{afterLoginGo=dest;goView('login');}
+}
+
+function fillLogin(e,p){document.getElementById('login-email').value=e;document.getElementById('login-pw').value=p;}
+
+function doLogin(){
+  const em=document.getElementById('login-email').value.trim();
+  const pw=document.getElementById('login-pw').value.trim();
+  const err=document.getElementById('login-err');
+  if(ACCOUNTS[em]&&ACCOUNTS[em].pw===pw){
+    currentUser=ACCOUNTS[em];
+    err.style.display='none';
+    document.getElementById('login-email').classList.remove('error');
+    document.getElementById('login-pw').classList.remove('error');
+    document.getElementById('nav-guest').style.display='none';
+    document.getElementById('nav-user').style.display='flex';
+    document.getElementById('nav-av').textContent=currentUser.avatar;
+    document.getElementById('nav-uname').textContent=currentUser.name;
+    renderDash();
+    goView(afterLoginGo||'dashboard');
+    afterLoginGo=null;
+  } else {
+    err.style.display='block';
+    document.getElementById('login-email').classList.add('error');
+    document.getElementById('login-pw').classList.add('error');
+  }
+}
+
+function logout(){
+  currentUser=null;
+  document.getElementById('nav-guest').style.display='flex';
+  document.getElementById('nav-user').style.display='none';
+  goView('home');
+}
+
+function renderDash(){
+  if(!currentUser)return;
+  const s=STATES[currentUser.state];
+  const sub=['신청 전입니다.','신청이 완료되었습니다!','심사가 진행 중입니다.','초급 과정 수강 중입니다!','초급 과정을 수료했습니다! 🎉','중급 과정 수강 중입니다!','중급 과정을 수료했습니다! 🎉','고급 과정 수강 중입니다!','AI 시민 리더 인증을 완료했습니다! 🏅'];
+  document.getElementById('db-name').textContent=currentUser.name+' 님, '+sub[currentUser.state];
+  document.getElementById('db-sub').textContent=s.cur.desc;
+  document.getElementById('db-status').textContent=s.status;
+  document.getElementById('db-cur-icon').textContent=s.cur.icon;
+  document.getElementById('db-cur-title').textContent=s.cur.title;
+  document.getElementById('db-cur-desc').textContent=s.cur.desc;
+  document.getElementById('db-cur-badge').textContent=s.cur.badge;
+
+  let sh='';
+  DASH_STEPS.forEach((st,i)=>{
+    const done=i<=s.stepDone,ing=i===s.stepIng;
+    const cc=done?'sc-done':ing?'sc-ing':'sc-wait';
+    const ci=done?'✓':ing?st.icon:(i+1);
+    let dt='',dc='sdate-wait';
+    if(done){dt=i<3?['2026.04.01','2026.04.05','2026.04.10'][i]:'수료 완료';dc='sdate-done';}
+    else if(ing){dt='진행 중';dc='sdate-ing';}
+    sh+=`<div class="step-col"><div class="step-circle ${cc}">${ci}</div><div class="step-name${done||ing?'':' muted'}">${st.name}</div><div class="step-sub">${st.icon}</div>${dt?`<div class="step-date ${dc}">${dt}</div>`:''}</div>`;
+    if(i<DASH_STEPS.length-1){const lc=i<s.stepDone?'conn-done':i===s.stepDone&&s.stepIng>-1?'conn-ing':'conn-wait';sh+=`<div class="step-conn ${lc}"></div>`;}
+  });
+  document.getElementById('db-stepper').innerHTML=sh;
+
+  let lh='';
+  LEVEL_DATA.forEach((lv,i)=>{
+    const p=s.levels[i],done=p===100,ing=p>0&&p<100,locked=p===0&&i>0&&s.levels[i-1]<100;
+    const cc=done?'lc-done':ing?'lc-ing':locked?'lc-locked':'';
+    const bc=done?'lcb-done':ing?'lcb-ing':'lcb-wait';
+    const bt=done?'✓ 수료 완료':ing?'수강 중':locked?'이전 단계 수료 필요':'합격 후 시작';
+    const ft=done?lv.doneT:ing?lv.ingT(p):locked?lv.lockT:lv.waitT;
+    const fc=done?'lc-foot-txt success':'lc-foot-txt';
+    const pc=done||ing?lv.pct:'';
+    lh+=`<div class="level-card ${cc}"><div class="lc-top"><div class="lc-icon-box ${lv.boxCls}">${lv.icon}</div><span class="lc-badge ${bc}">${bt}</span></div><div class="lc-step ${lv.stepCls}">${lv.step}</div><div class="lc-title">${lv.title}</div><div class="lc-desc">${lv.desc}</div><div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap"><span style="font-size:11.5px;color:var(--text-sub)">📅 ${lv.weeks}</span><span style="font-size:11.5px;color:var(--text-sub)">💰 무료</span></div><div class="prog-bar"><div class="prog-fill ${lv.fill}" style="width:${p}%"></div></div><div class="lc-foot"><span class="${fc}">${ft}</span><span class="lc-pct ${pc}">${p}%</span></div></div>`;
+  });
+  document.getElementById('db-levels').innerHTML=lh;
+
+  let clh='';
+  CHECKS_DATA.forEach((c,i)=>{
+    const v=s.checks[i],isIng=v===0&&(i===0||s.checks[i-1]===1);
+    const ic=v?'cl-done':isIng?'cl-ing':'cl-wait';
+    const cc=v?'cc-done':isIng?'cc-ing':'cc-wait';
+    const ci=v?'✓':isIng?'→':(i+1);
+    const rc=v?'cr-done':isIng?'cr-ing':'cr-wait';
+    const rt=v?'완료':isIng?'진행 중':'대기';
+    clh+=`<div class="cl-item ${ic}"><div class="cl-check ${cc}">${ci}</div><div style="flex:1"><div class="cl-name">${c.n}</div><div class="cl-sub">${c.s}</div></div><div class="cl-right ${rc}">${rt}</div></div>`;
+  });
+  document.getElementById('db-checklist').innerHTML=clh;
+
+  document.getElementById('db-next').innerHTML=s.next.map(n=>`<div class="next-item"><span class="ni-date">${n.d}</span><span class="ni-text">${n.t}</span><span class="ni-dday">${n.dd}</span></div>`).join('');
+  document.getElementById('db-notif').innerHTML=s.notifs.map(n=>`<div class="notif-item"><div class="nd ${n.c}"></div><div class="notif-txt">${n.t}</div><div class="notif-time">${n.tm}</div></div>`).join('');
+}
+
+function renderStepBar(cur){
+  const steps=['과정 선택','신청자 정보','일정·동의'];
+  let h='';
+  steps.forEach((s,i)=>{
+    const done=i<cur-1,active=i===cur-1;
+    h+=`<div class="sb-item${active?' sba':done?' sbd':''}"><div class="sb-circle">${done?'✓':(i+1)}</div><span class="sb-label">${s}</span></div>`;
+    if(i<steps.length-1)h+=`<div class="sb-line${done?' sld':''}"></div>`;
+  });
+  document.getElementById('apply-stepbar').innerHTML=h;
+}
+
+function apStep(n){
+  if(n===3&&!validateStep2())return;
+  ['ap-step1','ap-step2','ap-step3'].forEach((id,i)=>document.getElementById(id).style.display=i===n-1?'block':'none');
+  renderStepBar(n);
+  document.querySelector('.apply-page').scrollIntoView({behavior:'smooth'});
+}
+
+function validateStep2(){
+  let ok=true;
+  [{id:'f-name',e:'ferr-name'},{id:'f-birth',e:'ferr-birth'},{id:'f-phone',e:'ferr-phone'},{id:'f-email',e:'ferr-email'},{id:'f-region',e:'ferr-region'},{id:'f-job',e:'ferr-job'},{id:'f-level',e:'ferr-level'}].forEach(f=>{
+    const el=document.getElementById(f.id),er=document.getElementById(f.e);
+    if(!el.value.trim()){el.classList.add('ferr');er.classList.add('fshow');ok=false;}
+    else{el.classList.remove('ferr');er.classList.remove('fshow');}
+  });
+  const m=document.getElementById('f-motiv'),me=document.getElementById('ferr-motiv');
+  if(m.value.trim().length<30){m.classList.add('ferr');me.classList.add('fshow');ok=false;}
+  else{m.classList.remove('ferr');me.classList.remove('fshow');}
+  return ok;
+}
+
+function selectCourse(el,name){
+  document.querySelectorAll('.cs-card').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+}
+function selSch(el){
+  document.querySelectorAll('.sch-btn').forEach(b=>b.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedSch=el;
+  document.getElementById('ferr-sch').classList.remove('fshow');
+}
+function toggleAll(){
+  const all=document.getElementById('ag-all');
+  ['ag1','ag2','ag3','ag4'].forEach(id=>document.getElementById(id).checked=all.checked);
+}
+function togAg(id){
+  const el=document.getElementById(id);el.checked=!el.checked;
+  document.getElementById('ag-all').checked=['ag1','ag2','ag3','ag4'].every(i=>document.getElementById(i).checked);
+}
+function submitApply(){
+  if(!selectedSch){document.getElementById('ferr-sch').classList.add('fshow');return;}
+  if(!document.getElementById('ag1').checked||!document.getElementById('ag2').checked||!document.getElementById('ag3').checked){document.getElementById('ferr-ag').classList.add('fshow');return;}
+  document.getElementById('ferr-ag').classList.remove('fshow');
+  const num='2026-'+String(Math.floor(Math.random()*9000)+1000)+'-'+String(Math.floor(Math.random()*9000)+1000);
+  document.getElementById('modal-num').textContent=num;
+  document.getElementById('modal').classList.add('show');
+}
+function closeModal(){
+  document.getElementById('modal').classList.remove('show');
+  document.querySelectorAll('.f-input,.f-textarea').forEach(el=>el.value='');
+  document.querySelectorAll('.f-select').forEach(el=>el.selectedIndex=0);
+  document.querySelectorAll('input[type=checkbox]').forEach(el=>el.checked=false);
+  document.querySelectorAll('.sch-btn').forEach(b=>b.classList.remove('selected'));
+  selectedSch=null;
+  apStep(1);
+  if(currentUser){renderDash();goView('dashboard');}
+  else goView('home');
+}
+
+// 초기화
+renderStepBar(1);
+document.getElementById('nav-user').style.display='none';
+document.getElementById('nav-guest').style.display='flex';
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&document.getElementById('view-login').classList.contains('active'))doLogin();});
+</script>
+</body>
+</html>
